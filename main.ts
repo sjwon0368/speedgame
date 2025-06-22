@@ -25,10 +25,10 @@ radio.onReceivedMessage(RadioMessage.devname_req, function () {
 radio.onReceivedMessage(RadioMessage.join_ack, function () {
     basic.showLeds(`
         . . . . .
-        . . . . #
-        . . . # .
-        # . # . .
-        . # . . .
+        . . . . .
+        # . # . #
+        . . . . .
+        . . . . .
         `)
     connectphase = "exchange_names"
     radio.sendMessage(RadioMessage.devname_req)
@@ -192,6 +192,7 @@ states.setEnterHandler("connect", function () {
 })
 radio.onReceivedMessage(RadioMessage.rs_ack_lvselect, function () {
     basic.showString("Level")
+    isconnected = true
 })
 states.addLoopHandler("connect", function () {
 	
@@ -237,8 +238,10 @@ function loadconnect () {
 radio.onReceivedMessage(RadioMessage.req_start, function () {
     radio.sendMessage(RadioMessage.rs_ack_lvselect)
     basic.showString("Level")
+    isconnected = true
 })
 radio.onReceivedMessage(RadioMessage.exc_finish, function () {
+    radio.sendMessage(RadioMessage.exc_finish_ack)
     basic.showLeds(`
         . . . # .
         . . # # .
@@ -249,7 +252,6 @@ radio.onReceivedMessage(RadioMessage.exc_finish, function () {
     basic.clearScreen()
     basic.showIcon(IconNames.Yes)
     basic.clearScreen()
-    radio.sendMessage(RadioMessage.exc_finish_ack)
 })
 radio.onReceivedMessage(RadioMessage.exc_finish_ack, function () {
     basic.showLeds(`
@@ -264,6 +266,7 @@ radio.onReceivedMessage(RadioMessage.exc_finish_ack, function () {
     basic.clearScreen()
     radio.sendMessage(RadioMessage.req_start)
 })
+let isconnected = false
 let isconnecting = false
 let currentmode = 0
 let modeIcons: Image[] = []
