@@ -194,9 +194,6 @@ radio.onReceivedMessage(RadioMessage.rs_ack_lvselect, function () {
     basic.showString("Level")
     isconnected = true
 })
-states.addLoopHandler("connect", function () {
-	
-})
 function loadconnect () {
     basic.showLeds(`
         . . . . .
